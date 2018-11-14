@@ -23,13 +23,13 @@ public class GameBoard : MonoBehaviour
         float yaw = Input.GetAxis("Yaw");
         float roll = Input.GetAxis("Vertical");
 
-        rb.MoveRotation(CameraRelativeRotation(pitch, yaw, roll));
+        rb.MoveRotation(transform.rotation * CameraRelativeRotation(pitch, yaw, roll));
     }
 
     private Quaternion CameraRelativeRotation(float pitch, float yaw, float roll)
     {
         if (!pivotCamera)
-            return transform.rotation * Quaternion.Euler(new Vector3(roll, yaw, -pitch) * sensitivity * Time.deltaTime);
+            return Quaternion.Euler(new Vector3(roll, yaw, -pitch) * sensitivity * Time.deltaTime);
 
         Vector3 relativePitch = pivotCamera.transform.TransformDirection(Vector3.down);
         Vector3 relativeYaw = pivotCamera.transform.TransformDirection(Vector3.back);
@@ -39,9 +39,8 @@ public class GameBoard : MonoBehaviour
         Vector3 objectRelaviveYaw = transform.InverseTransformDirection(relativeYaw);
         Vector3 objectRelaviveRoll = transform.InverseTransformDirection(relativeRoll);
 
-        return transform.rotation
-                * Quaternion.AngleAxis(pitch * sensitivity * Time.deltaTime, objectRelativePitch)
-                * Quaternion.AngleAxis(yaw * sensitivity * Time.deltaTime, objectRelaviveYaw)
-                * Quaternion.AngleAxis(roll * sensitivity * Time.deltaTime, objectRelaviveRoll);
+        return Quaternion.AngleAxis(pitch * sensitivity * Time.deltaTime, objectRelativePitch)
+             * Quaternion.AngleAxis(yaw * sensitivity * Time.deltaTime, objectRelaviveYaw)
+             * Quaternion.AngleAxis(roll * sensitivity * Time.deltaTime, objectRelaviveRoll);
     }
 }
