@@ -15,6 +15,7 @@ public class GameBoard : MonoBehaviour
     private void Update()
     {
         JoyControl();
+        MotionControl();
     }
 
     private void JoyControl()
@@ -42,5 +43,9 @@ public class GameBoard : MonoBehaviour
         return Quaternion.AngleAxis(pitch * sensitivity * Time.deltaTime, objectRelativePitch)
              * Quaternion.AngleAxis(yaw * sensitivity * Time.deltaTime, objectRelaviveYaw)
              * Quaternion.AngleAxis(roll * sensitivity * Time.deltaTime, objectRelaviveRoll);
+    }
+
+    private void MotionControl()
+    {
     }
 }
